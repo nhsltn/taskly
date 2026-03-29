@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaSuitcase } from "react-icons/fa";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import Vector from "/assets/images/vector-signin.png";
 
 function Signin() {
@@ -51,7 +50,6 @@ function Signin() {
 
   return (
     <div className="signin-page bg-login bg-cover bg-center h-screen flex items-center justify-center">
-      <ToastContainer position="top-right" theme="colored" />
       <div className="card w-7xl flex p-5 h-[80%]">
         <div className="signin-vector flex-1 items-end relative">
           <img
@@ -75,6 +73,7 @@ function Signin() {
                   className="outline-none w-full"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSignIn()}
                 />
               </div>
             </div>
@@ -90,6 +89,7 @@ function Signin() {
                   className="outline-none w-full"
                   value={position}
                   onChange={(e) => setPosition(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSignIn()}
                 />
               </div>
             </div>
