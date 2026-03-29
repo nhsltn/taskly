@@ -1,1 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
 @import "tailwindcss";
+
+@theme {
+  --bg-signin: url("/assets/images/bg-login.png");
+}
+
+@layer utilities {
+  .bg-login {
+    background-image: linear-gradient(#ff676780, #ff676780), var(--bg-signin);
+  }
+
+  body {
+    font-family: "Montserrat", sans-serif;
+  }
+
+  .card {
+    background-color: white;
+    border-radius: 24px;
+  }
+}
