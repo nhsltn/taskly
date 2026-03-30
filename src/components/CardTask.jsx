@@ -9,7 +9,7 @@ const CardTask = () => {
       <div className="task-header flex gap-2 items-center">
         <button
           onClick={() => setDone(!done)}
-          className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200
+          className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 transition-all duration-200
             ${done ? "bg-red-400 border-red-400" : "border-red-400 bg-white"}`}
         >
           {done && <FaCheck className="text-white text-[8px]" />}
@@ -20,7 +20,7 @@ const CardTask = () => {
           Attend Nischal's Birthday Party
         </h3>
       </div>
-      <p className="task-desc text-sm text-gray-400">
+      <p className="task-desc text-sm text-gray-400 line-clamp-3">
         Buy gifts on the way and pick up cake from the bakery. (6 PM | Fresh
         Elements).....
       </p>

@@ -1,10 +1,14 @@
-import React from "react";
+/* eslint-disable no-unused-vars */
+import React, { useState } from "react";
 import { MdWavingHand } from "react-icons/md";
 import { FaRegClipboard, FaRegClock, FaPlus } from "react-icons/fa";
 import { getLongDate } from "../utils/dateHelper";
 import CardTask from "../components/CardTask";
+import AddTask from "../components/AddTask";
 
 const DashboardContent = ({ profile }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className="content-dashboard flex flex-col gap-5 items-start w-full h-full">
       <div className="greetings flex flex-row gap-3  items-center">
@@ -25,10 +29,14 @@ const DashboardContent = ({ profile }) => {
                     To-Do
                   </h1>
                 </div>
-                <button className="flex gap-2 items-center">
+                <button
+                  className="flex gap-2 items-center"
+                  onClick={() => setIsOpen(true)}
+                >
                   <FaPlus className="text-base text-[#F24E1E] size-4" />
                   <p className="text-base text-gray-400">Add Task</p>
                 </button>
+                {isOpen && <AddTask onClose={() => setIsOpen(false)} />}
               </div>
               <div className="todo-date flex items-center gap-2">
                 <p className="text-xs font-regular font-medium">
