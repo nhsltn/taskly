@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { MdDashboard, MdLogout } from "react-icons/md";
 import { FaExclamation, FaTasks } from "react-icons/fa";
@@ -8,7 +8,7 @@ import SidebarButtons from "./SidebarButtons";
 import { BiTask } from "react-icons/bi";
 import Profpic from "/assets/images/profile-photo.jpg";
 
-export const Sidebar = () => {
+export const Sidebar = ({ activeId, onNavigate }) => {
   const navigate = useNavigate();
 
   const stored =
@@ -49,20 +49,18 @@ export const Sidebar = () => {
     },
   ];
 
-  const [activeId, setActiveId] = useState("dashboard");
-
   const handleLogout = () => {
     sessionStorage.removeItem("currentUser");
     navigate("/signin");
   };
   return (
-    <div className="sidebar shadow-[10px_4px_12px_rgba(0,0,0,0.1)] bg-[#FF6767] rounded-r-3xl flex flex-col absolute bottom-0 left-0 gap-5 h-[86%] w-82.5 text-white py-8 pr-5 pl-3 ">
+    <div className="sidebar shadow-[10px_4px_12px_rgba(0,0,0,0.1)] bg-[#FF6767] rounded-r-3xl flex flex-col relative h-full w-82.5 text-white py-8 pr-5 pl-3 ">
       <img
         src={Profpic}
         alt="Profile"
         className="size-21.5 rounded-full object-cover object-top -top-11 left-1/2 -translate-x-1/2 absolute border border-white"
       />
-      <div className="profile flex items-center flex-col mt-4">
+      <div className="profile flex items-center flex-col my-5">
         <p>{profile.name}</p>
         <p>{profile.position}</p>
       </div>
@@ -74,7 +72,7 @@ export const Sidebar = () => {
               label={label}
               icon={icon}
               isActive={activeId === id}
-              onClick={() => setActiveId(id)}
+              onClick={() => onNavigate(id)}
             />
           ))}
         </div>

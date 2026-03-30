@@ -35,7 +35,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="navbar bg-[#F8F8FB] px-20 py-3 flex justify-between w-full h-20 shadow-[0px_4px_12px_0px_rgba(0,0,0,0.07)] relative mb-10">
+    <nav className="navbar bg-[#F8F8FB] px-20 py-3 flex justify-between w-full h-20 shadow-[0px_4px_12px_0px_rgba(0,0,0,0.07)] relative mb-15">
       <div className="logo flex items-center gap-3">
         <img src={Logo} alt="Taskly Logo" className="h-9.75 w-auto" />
         <p className="text-[32px] font-bold">
