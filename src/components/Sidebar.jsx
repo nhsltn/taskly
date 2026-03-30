@@ -8,13 +8,8 @@ import SidebarButtons from "./SidebarButtons";
 import { BiTask } from "react-icons/bi";
 import Profpic from "/assets/images/profile-photo.jpg";
 
-export const Sidebar = ({ activeId, onNavigate }) => {
+export const Sidebar = ({ activeId, onNavigate, profile }) => {
   const navigate = useNavigate();
-
-  const stored =
-    sessionStorage.getItem("currentUser") ||
-    localStorage.getItem("rememberedUser");
-  const profile = JSON.parse(stored);
 
   const navItems = [
     {
