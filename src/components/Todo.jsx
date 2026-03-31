@@ -4,8 +4,11 @@ import AddTask from "../components/AddTask";
 import { FaRegClipboard, FaRegClock, FaPlus } from "react-icons/fa";
 import CardTask from "../components/CardTask";
 
-const Todo = () => {
+const Todo = ({ profile, onTaskUpdate }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const tasks = JSON.parse(
+    localStorage.getItem(`tasks_${profile.name}`) || "[]",
+  );
 
   return (
     <div className="first-row-content flex-1 rounded-b-2xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] bg-white py-5 px-10 gap-5 flex flex-col">
@@ -33,8 +36,18 @@ const Todo = () => {
         </div>
       </div>
       <div className="cards-task flex flex-col gap-3 items-center">
-        <CardTask />
-        <CardTask />
+        {tasks.length === 0 ? (
+          <p className="text-gray-400 text-sm">Belum ada task.</p>
+        ) : (
+          tasks.map((task) => (
+            <CardTask
+              key={task.id}
+              task={task}
+              profile={profile}
+              onTaskUpdate={onTaskUpdate}
+            />
+          ))
+        )}
       </div>
     </div>
   );

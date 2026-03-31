@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import React from "react";
 import { FaRegClipboard, FaCheck } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
@@ -45,12 +47,10 @@ const DonutChart = ({ value, color }) => {
     </PieChart>
   );
 };
-const TaskStatus = () => {
-  const stored =
-    sessionStorage.getItem("currentUser") ||
-    localStorage.getItem("rememberedUser");
-  const user = JSON.parse(stored);
-  const tasks = JSON.parse(localStorage.getItem(`tasks_${user.name}`) || "[]");
+const TaskStatus = ({ profile, taskUpdated }) => {
+  const tasks = JSON.parse(
+    localStorage.getItem(`tasks_${profile.name}`) || "[]",
+  );
 
   const total = tasks.length;
   const toPercent = (val) =>
