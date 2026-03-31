@@ -19,7 +19,6 @@ const DashboardContent = ({ profile }) => {
           <Todo
             profile={profile}
             onTaskUpdate={() => {
-              console.log("DashboardContent onTaskUpdate dipanggil");
               setTaskUpdated((t) => t + 1);
             }}
           />

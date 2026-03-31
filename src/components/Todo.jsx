@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getLongDate } from "../utils/dateHelper";
+import { getDay } from "../utils/dateHelper";
 import AddTask from "../components/AddTask";
 import { FaRegClipboard, FaRegClock, FaPlus } from "react-icons/fa";
 import CardTask from "../components/CardTask";
@@ -7,8 +7,7 @@ import CardTask from "../components/CardTask";
 const getTopTasks = (name) =>
   JSON.parse(localStorage.getItem(`tasks_${name}`) || "[]")
     .filter((t) => t.status !== "Completed")
-    .sort((a, b) => new Date(a.deadline) - new Date(b.deadline))
-    .slice(0, 2);
+    .sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
 
 const Todo = ({ profile, onTaskUpdate }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,6 +17,31 @@ const Todo = ({ profile, onTaskUpdate }) => {
     setTasks(getTopTasks(profile.name));
     onTaskUpdate();
   };
+
+  const grouped = tasks.reduce((acc, task) => {
+    if (!acc[task.deadline]) acc[task.deadline] = [];
+    acc[task.deadline].push(task);
+    return acc;
+  }, {});
+
+  const sortedDates = Object.keys(grouped)
+    .sort((a, b) => new Date(a) - new Date(b))
+    .slice(0, 2);
+
+  const today = new Date().toISOString().split("T")[0];
+
+  let totalRendered = 0;
+  const renderedIds = [];
+
+  sortedDates.forEach((date) => {
+    const remaining = 2 - totalRendered;
+    if (remaining <= 0) return;
+    const tasksToShow = grouped[date].slice(0, remaining);
+    totalRendered += tasksToShow.length;
+    tasksToShow.forEach((t) => renderedIds.push(t.id));
+  });
+
+  const nextTask = tasks.find((t) => !renderedIds.includes(t.id));
 
   return (
     <div className="first-row-content flex-1 rounded-b-2xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] bg-white py-5 px-10 gap-5 flex flex-col">
@@ -47,23 +71,77 @@ const Todo = ({ profile, onTaskUpdate }) => {
             />
           )}
         </div>
-        <div className="todo-date flex items-center gap-2">
-          <p className="text-xs font-regular font-medium">{getLongDate()}</p>
-          <p className="text-gray-400 text-sm">• Today</p>
-        </div>
       </div>
-      <div className="cards-task  flex flex-col gap-3 items-center overflow-y-auto">
-        {tasks.length === 0 ? (
+
+      <div className="cards-task flex flex-col gap-5 overflow-y-auto">
+        {sortedDates.length === 0 ? (
           <p className="text-gray-400 text-sm">Belum ada task.</p>
         ) : (
-          tasks.map((task) => (
-            <CardTask
-              key={task.id}
-              task={task}
-              profile={profile}
-              onTaskUpdate={handleTaskUpdate}
-            />
-          ))
+          <>
+            {sortedDates.map((date) => {
+              const tasksToShow = grouped[date].filter((t) =>
+                renderedIds.includes(t.id),
+              );
+              if (tasksToShow.length === 0) return null;
+
+              return (
+                <div key={date} className="flex flex-col gap-3">
+                  <div className="todo-date flex items-center gap-2">
+                    <p className="text-xs font-medium">
+                      {new Date(date).toLocaleDateString("id-ID", {
+                        day: "numeric",
+                        month: "long",
+                      })}
+                    </p>
+                    {date === today ? (
+                      <p className="text-gray-400 text-sm">• Today</p>
+                    ) : (
+                      <p className="text-gray-400 text-sm">
+                        • {getDay(new Date(date))}
+                      </p>
+                    )}
+                  </div>
+                  {tasksToShow.map((task) => (
+                    <CardTask
+                      key={task.id}
+                      task={task}
+                      profile={profile}
+                      onTaskUpdate={handleTaskUpdate}
+                    />
+                  ))}
+                </div>
+              );
+            })}
+
+            {nextTask && (
+              <>
+                <hr className="border-gray-200" />
+                <div className="flex flex-col gap-3">
+                  <div className="todo-date flex items-center gap-2">
+                    <p className="text-xs font-medium">
+                      {new Date(nextTask.deadline).toLocaleDateString("id-ID", {
+                        day: "numeric",
+                        month: "long",
+                      })}
+                    </p>
+                    {nextTask.deadline === today ? (
+                      <p className="text-gray-400 text-sm">• Today</p>
+                    ) : (
+                      <p className="text-gray-400 text-sm">
+                        • {getDay(new Date(nextTask.deadline))}
+                      </p>
+                    )}
+                  </div>
+                  <CardTask
+                    key={nextTask.id}
+                    task={nextTask}
+                    profile={profile}
+                    onTaskUpdate={handleTaskUpdate}
+                  />
+                </div>
+              </>
+            )}
+          </>
         )}
       </div>
     </div>

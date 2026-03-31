@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { GoDotFill } from "react-icons/go";
 import { toast } from "react-toastify";
 
-const AddTask = ({ onClose }) => {
+const AddTask = ({ onClose, initialData = null, isEdit = false }) => {
   const [form, setForm] = useState({
-    title: "",
-    deadline: "",
-    priority: "",
-    description: "",
+    title: initialData?.title || "",
+    deadline: initialData?.deadline || "",
+    priority: initialData?.priority || "",
+    description: initialData?.description || "",
+    status: initialData?.status || "Not Started",
   });
 
   const handleChange = (e) => {
@@ -36,27 +37,30 @@ const AddTask = ({ onClose }) => {
       sessionStorage.getItem("currentUser") ||
       localStorage.getItem("rememberedUser");
     const user = JSON.parse(stored);
-
     const userTasksKey = `tasks_${user.name}`;
     const existing = JSON.parse(localStorage.getItem(userTasksKey) || "[]");
 
-    const newTask = {
-      ...form,
-      id: existing.length > 0 ? existing[existing.length - 1].id + 1 : 1,
-      status: "Not Started",
-      createdAt: new Date().toLocaleDateString("id-ID"),
-    };
+    if (isEdit) {
+      const updatedTasks = existing.map((t) =>
+        t.id === initialData.id ? { ...t, ...form } : t,
+      );
+      localStorage.setItem(userTasksKey, JSON.stringify(updatedTasks));
+      toast.success("Task berhasil diupdate!", { autoClose: 1500 });
+    } else {
+      const newTask = {
+        ...form,
+        id: existing.length > 0 ? existing[existing.length - 1].id + 1 : 1,
+        status: "Not Started",
+        createdAt: new Date().toLocaleDateString("id-ID"),
+      };
+      localStorage.setItem(
+        userTasksKey,
+        JSON.stringify([...existing, newTask]),
+      );
+      toast.success("Task berhasil ditambahkan!", { autoClose: 1500 });
+    }
 
-    const updatedTasks = [...existing, newTask];
-    localStorage.setItem(userTasksKey, JSON.stringify(updatedTasks));
-
-    toast.success("Task berhasil ditambahkan!", {
-      autoClose: 1500,
-    });
-
-    setTimeout(() => {
-      onClose();
-    }, 1500);
+    setTimeout(() => onClose(), 1500);
   };
 
   return (
@@ -64,7 +68,7 @@ const AddTask = ({ onClose }) => {
       <div className="add-task-card flex flex-col gap-10 rounded-2xl p-15 bg-white w-[50%]">
         <div className="add-task-header flex justify-between items-center">
           <h2 className="text-base font-semibold border-b-2 border-[#F24E1E]">
-            Add New Task
+            {isEdit ? "Edit Task" : "Add New Task"}
           </h2>
           <button onClick={onClose} className="text-sm underline">
             Go Back
@@ -94,7 +98,7 @@ const AddTask = ({ onClose }) => {
           </div>
           <div className="task-priority flex flex-col gap-2 w-[50%]">
             <p className="font-semibold text-sm">Priority</p>
-            <div className="prio-checkbox flex justify-between items-center">
+            <div className="task-checkbox flex justify-between items-center">
               {[
                 { id: "extreme", label: "Extreme", color: "text-red-500" },
                 { id: "moderate", label: "Moderate", color: "text-blue-500" },
@@ -119,6 +123,38 @@ const AddTask = ({ onClose }) => {
               ))}
             </div>
           </div>
+          {isEdit && (
+            <div className="task-status flex flex-col gap-2 w-[60%]">
+              <p className="font-semibold text-sm">Status</p>
+              <div className="flex justify-between items-center">
+                {[
+                  { id: "Not Started", color: "text-red-500" },
+                  { id: "In Progress", color: "text-blue-500" },
+                  { id: "Completed", color: "text-green-600" },
+                ].map(({ id, color }) => (
+                  <div key={id} className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
+                      <GoDotFill className={color} />
+                      <label
+                        htmlFor={`status-${id}`}
+                        className="text-gray-400 text-sm"
+                      >
+                        {id}
+                      </label>
+                    </div>
+                    <input
+                      type="radio"
+                      name="status"
+                      id={`status-${id}`}
+                      value={id}
+                      checked={form.status === id}
+                      onChange={handleChange}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
           <div className="input-description w-[60%] flex flex-col gap-2">
             <label className="font-semibold text-sm">Task Description</label>
             <textarea
@@ -135,7 +171,7 @@ const AddTask = ({ onClose }) => {
           onClick={handleSubmit}
           className="h-9 w-22 flex items-center justify-center bg-[#F24E1E] rounded-md text-white text-sm font-medium"
         >
-          Done
+          {isEdit ? "Save" : "Done"}
         </button>
       </div>
     </div>

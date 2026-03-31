@@ -10,9 +10,19 @@ const MyTask = ({ profile, onForceRefresh }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedTask, setSelectedTask] = useState(null);
 
-  const allTasks = JSON.parse(
-    localStorage.getItem(`tasks_${profile.name}`) || "[]",
-  ).sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+  const [allTasks, setAllTasks] = useState(
+    JSON.parse(localStorage.getItem(`tasks_${profile.name}`) || "[]").sort(
+      (a, b) => new Date(a.deadline) - new Date(b.deadline),
+    ),
+  );
+
+  const refreshTasks = () => {
+    setAllTasks(
+      JSON.parse(localStorage.getItem(`tasks_${profile.name}`) || "[]").sort(
+        (a, b) => new Date(a.deadline) - new Date(b.deadline),
+      ),
+    );
+  };
 
   const totalPages = Math.ceil(allTasks.length / ITEMS_PER_PAGE);
   const tasks = allTasks.slice(
@@ -71,6 +81,7 @@ const MyTask = ({ profile, onForceRefresh }) => {
                   onTaskUpdate={() => {}}
                   onSelect={() => setSelectedTask(task)}
                   isActive={selectedTask?.id === task.id}
+                  disableHide={true}
                 />
               ))
             )}
@@ -123,7 +134,22 @@ const MyTask = ({ profile, onForceRefresh }) => {
         </div>
       </div>
       <div className="second-row-content flex-1">
-        <TaskDetails task={selectedTask} />
+        <TaskDetails
+          task={selectedTask}
+          profile={profile}
+          onTaskUpdate={() => {
+            refreshTasks();
+            setTimeout(() => {
+              const updatedTasks = JSON.parse(
+                localStorage.getItem(`tasks_${profile.name}`) || "[]",
+              );
+              const updatedSelected = updatedTasks.find(
+                (t) => t.id === selectedTask?.id,
+              );
+              setSelectedTask({ ...updatedSelected }); // spread biar React tau datanya beda
+            }, 100);
+          }}
+        />
       </div>
     </div>
   );

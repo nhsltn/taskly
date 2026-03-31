@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/set-state-in-effect */
+// /* eslint-disable react-hooks/set-state-in-effect */
+import React, { useState, useEffect } from "react";
 import { FaCheck } from "react-icons/fa";
 
 const priorityColor = {
@@ -13,32 +15,46 @@ const statusColor = {
   Completed: "#16a34a",
 };
 
-const CardTask = ({ task, profile, onTaskUpdate, onSelect, isActive }) => {
+const CardTask = ({
+  task,
+  profile,
+  onTaskUpdate,
+  onSelect,
+  isActive,
+  disableHide = false,
+}) => {
   const [done, setDone] = useState(task.status === "Completed");
   const [status, setStatus] = useState(task.status);
   const [hiding, setHiding] = useState(false);
   const btnColor = statusColor[status];
 
+  useEffect(() => {
+    setDone(task.status === "Completed");
+    setStatus(task.status);
+  }, [task.status]);
+
   const handleDone = () => {
     const newDone = !done;
 
     if (newDone) {
-      setHiding(true);
-      setTimeout(() => {
-        const newStatus = "Completed";
-        setDone(true);
-        setStatus(newStatus);
-        const userTasksKey = `tasks_${profile.name}`;
-        const tasks = JSON.parse(localStorage.getItem(userTasksKey) || "[]");
-        const updatedTasks = tasks.map((t) =>
-          t.id === task.id
-            ? { ...t, status: newStatus, completedAt: Date.now() }
-            : t,
-        );
-        localStorage.setItem(userTasksKey, JSON.stringify(updatedTasks));
-        console.log("onTaskUpdate dipanggil, status baru:", newStatus);
-        onTaskUpdate();
-      }, 400);
+      if (!disableHide) setHiding(true);
+      setTimeout(
+        () => {
+          const newStatus = "Completed";
+          setDone(true);
+          setStatus(newStatus);
+          const userTasksKey = `tasks_${profile.name}`;
+          const tasks = JSON.parse(localStorage.getItem(userTasksKey) || "[]");
+          const updatedTasks = tasks.map((t) =>
+            t.id === task.id
+              ? { ...t, status: newStatus, completedAt: Date.now() }
+              : t,
+          );
+          localStorage.setItem(userTasksKey, JSON.stringify(updatedTasks));
+          onTaskUpdate();
+        },
+        disableHide ? 0 : 400,
+      );
     } else {
       setDone(false);
       setStatus("Not Started");
@@ -59,7 +75,7 @@ const CardTask = ({ task, profile, onTaskUpdate, onSelect, isActive }) => {
       onClick={onSelect}
       className={`border flex flex-col gap-3 p-5 w-full rounded-2xl transition-all duration-400 cursor-pointer
         ${hiding ? "opacity-0 -translate-x-10" : "opacity-100 translate-x-0"}
-        ${isActive ? "border-[#FF6767] bg-red-50" : "border-gray-400"}
+        ${isActive ? "bg-gray-100" : "border-gray-400"}
       `}
     >
       <div className="task-header flex gap-2 items-center">
