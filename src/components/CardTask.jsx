@@ -13,7 +13,7 @@ const statusColor = {
   Completed: "#16a34a",
 };
 
-const CardTask = ({ task, profile, onTaskUpdate }) => {
+const CardTask = ({ task, profile, onTaskUpdate, onSelect, isActive }) => {
   const [done, setDone] = useState(task.status === "Completed");
   const [status, setStatus] = useState(task.status);
   const [hiding, setHiding] = useState(false);
@@ -56,8 +56,11 @@ const CardTask = ({ task, profile, onTaskUpdate }) => {
 
   return (
     <div
-      className={`border border-gray-400 flex flex-col gap-3 p-5 w-[80%] rounded-2xl transition-all duration-400
-        ${hiding ? "opacity-0 -translate-x-10" : "opacity-100 translate-x-0"}`}
+      onClick={onSelect}
+      className={`border flex flex-col gap-3 p-5 w-full rounded-2xl transition-all duration-400 cursor-pointer
+        ${hiding ? "opacity-0 -translate-x-10" : "opacity-100 translate-x-0"}
+        ${isActive ? "border-[#FF6767] bg-red-50" : "border-gray-400"}
+      `}
     >
       <div className="task-header flex gap-2 items-center">
         <button

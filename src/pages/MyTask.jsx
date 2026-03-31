@@ -8,6 +8,7 @@ const ITEMS_PER_PAGE = 4;
 
 const MyTask = ({ profile, onForceRefresh }) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedTask, setSelectedTask] = useState(null);
 
   const allTasks = JSON.parse(
     localStorage.getItem(`tasks_${profile.name}`) || "[]",
@@ -68,6 +69,8 @@ const MyTask = ({ profile, onForceRefresh }) => {
                   task={task}
                   profile={profile}
                   onTaskUpdate={() => {}}
+                  onSelect={() => setSelectedTask(task)}
+                  isActive={selectedTask?.id === task.id}
                 />
               ))
             )}
@@ -120,7 +123,7 @@ const MyTask = ({ profile, onForceRefresh }) => {
         </div>
       </div>
       <div className="second-row-content flex-1">
-        <TaskDetails />
+        <TaskDetails task={selectedTask} />
       </div>
     </div>
   );
