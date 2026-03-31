@@ -16,26 +16,48 @@ const statusColor = {
 const CardTask = ({ task, profile, onTaskUpdate }) => {
   const [done, setDone] = useState(task.status === "Completed");
   const [status, setStatus] = useState(task.status);
+  const [hiding, setHiding] = useState(false);
   const btnColor = statusColor[status];
 
   const handleDone = () => {
     const newDone = !done;
-    const newStatus = newDone ? "Completed" : "Not Started";
-    setDone(newDone);
-    setStatus(newStatus);
 
-    const userTasksKey = `tasks_${profile.name}`;
-    const tasks = JSON.parse(localStorage.getItem(userTasksKey) || "[]");
-    const updatedTasks = tasks.map((t) =>
-      t.id === task.id ? { ...t, status: newStatus } : t,
-    );
-    localStorage.setItem(userTasksKey, JSON.stringify(updatedTasks));
-
-    onTaskUpdate();
+    if (newDone) {
+      setHiding(true);
+      setTimeout(() => {
+        const newStatus = "Completed";
+        setDone(true);
+        setStatus(newStatus);
+        const userTasksKey = `tasks_${profile.name}`;
+        const tasks = JSON.parse(localStorage.getItem(userTasksKey) || "[]");
+        const updatedTasks = tasks.map((t) =>
+          t.id === task.id
+            ? { ...t, status: newStatus, completedAt: Date.now() }
+            : t,
+        );
+        localStorage.setItem(userTasksKey, JSON.stringify(updatedTasks));
+        onTaskUpdate();
+      }, 400);
+    } else {
+      setDone(false);
+      setStatus("Not Started");
+      const userTasksKey = `tasks_${profile.name}`;
+      const tasks = JSON.parse(localStorage.getItem(userTasksKey) || "[]");
+      const updatedTasks = tasks.map((t) =>
+        t.id === task.id
+          ? { ...t, status: "Not Started", completedAt: null }
+          : t,
+      );
+      localStorage.setItem(userTasksKey, JSON.stringify(updatedTasks));
+      onTaskUpdate();
+    }
   };
 
   return (
-    <div className="border border-gray-400 flex flex-col gap-3 p-5 w-[80%] rounded-2xl">
+    <div
+      className={`border border-gray-400 flex flex-col gap-3 p-5 w-[80%] rounded-2xl transition-all duration-400
+        ${hiding ? "opacity-0 -translate-x-10" : "opacity-100 translate-x-0"}`}
+    >
       <div className="task-header flex gap-2 items-center">
         <button
           onClick={handleDone}

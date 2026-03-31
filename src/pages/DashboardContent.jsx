@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import Todo from "../components/Todo";
 import { MdWavingHand } from "react-icons/md";
-import { BsClipboard2Check } from "react-icons/bs";
 import TaskStatus from "../components/TaskStatus";
+import CompletedTask from "../components/CompletedTask";
 
 const DashboardContent = ({ profile }) => {
   const [taskUpdated, setTaskUpdated] = useState(0);
@@ -20,8 +20,9 @@ const DashboardContent = ({ profile }) => {
             profile={profile}
             onTaskUpdate={() => setTaskUpdated((t) => t + 1)}
           />
-          <div className="second-row-content flex-1 ml-3">
+          <div className="second-row-content flex-1 ml-3 flex flex-col gap-5">
             <TaskStatus profile={profile} taskUpdated={taskUpdated} />
+            <CompletedTask profile={profile} taskUpdated={taskUpdated} />
           </div>
         </div>
       </div>
