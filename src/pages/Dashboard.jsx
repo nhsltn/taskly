@@ -6,6 +6,8 @@ import MyTask from "./MyTask";
 
 function Dashboard() {
   const [activePage, setActivePage] = useState("dashboard");
+  const [dashboardKey, setDashboardKey] = useState(0);
+
   const stored =
     sessionStorage.getItem("currentUser") ||
     localStorage.getItem("rememberedUser");
@@ -20,10 +22,20 @@ function Dashboard() {
           onNavigate={setActivePage}
           profile={profile}
         />
-        <div className=" content flex-1 overflow-y-auto pb-8 pr-20 h-full w-full ">
-          {activePage === "dashboard" && <DashboardContent profile={profile} />}
+        <div className="content flex-1 overflow-y-auto pb-8 pr-20 h-full w-full">
+          {activePage === "dashboard" && (
+            <DashboardContent key={dashboardKey} profile={profile} />
+          )}
           {activePage === "vital" && <div>Vital Task</div>}
-          {activePage === "mytask" && <MyTask profile={profile} />}
+          {activePage === "mytask" && (
+            <MyTask
+              profile={profile}
+              onForceRefresh={() => {
+                setDashboardKey((k) => k + 1);
+                setActivePage("dashboard");
+              }}
+            />
+          )}
           {activePage === "taskcategories" && <div>Task Categories</div>}
           {activePage === "settings" && <div>Settings</div>}
           {activePage === "help" && <div>Help</div>}

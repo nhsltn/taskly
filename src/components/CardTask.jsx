@@ -36,6 +36,7 @@ const CardTask = ({ task, profile, onTaskUpdate }) => {
             : t,
         );
         localStorage.setItem(userTasksKey, JSON.stringify(updatedTasks));
+        console.log("onTaskUpdate dipanggil, status baru:", newStatus);
         onTaskUpdate();
       }, 400);
     } else {
@@ -75,8 +76,10 @@ const CardTask = ({ task, profile, onTaskUpdate }) => {
           {task.title}
         </h3>
       </div>
-      <p className="task-desc text-sm text-gray-400 line-clamp-3">
-        {task.description}
+      <p className="task-desc text-sm text-gray-400 wrap-break-word">
+        {task.description.length > 100
+          ? task.description.slice(0, 100) + "..."
+          : task.description}
       </p>
       <div className="card-footer flex justify-between">
         <div className="priority flex text-[10px] gap-1">

@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
-
-import React from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from "react";
 import { FaRegClipboard, FaCheck } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 import { PieChart, Pie, Sector } from "recharts";
@@ -47,10 +46,16 @@ const DonutChart = ({ value, color }) => {
     </PieChart>
   );
 };
+
 const TaskStatus = ({ profile, taskUpdated }) => {
-  const tasks = JSON.parse(
-    localStorage.getItem(`tasks_${profile.name}`) || "[]",
+  const [tasks, setTasks] = useState(
+    JSON.parse(localStorage.getItem(`tasks_${profile.name}`) || "[]"),
   );
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setTasks(JSON.parse(localStorage.getItem(`tasks_${profile.name}`) || "[]"));
+  }, [taskUpdated]);
 
   const total = tasks.length;
   const toPercent = (val) =>
@@ -79,7 +84,7 @@ const TaskStatus = ({ profile, taskUpdated }) => {
       <div className="task-status-header flex items-center gap-2">
         <div className="content-title relative w-fit">
           <FaRegClipboard className="text-gray-400 text-3xl" />
-          <FaCheck className=" text-gray-400 text-lg absolute -bottom-1 -right-1 border border-white bg-white rounded-full" />
+          <FaCheck className="text-gray-400 text-lg absolute -bottom-1 -right-1 border border-white bg-white rounded-full" />
         </div>
         <h1 className="font-medium text-base text-[#FF6767]">Task Status</h1>
       </div>

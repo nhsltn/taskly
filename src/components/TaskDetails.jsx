@@ -1,4 +1,6 @@
 import React from "react";
+import { RiFileEditFill } from "react-icons/ri";
+import { FaTrash } from "react-icons/fa";
 
 const TaskDetails = () => {
   return (
@@ -29,6 +31,14 @@ const TaskDetails = () => {
             <span className="font-bold">Deadline for this task:</span>{" "}
             <span>2023-12-31</span>
           </p>
+        </div>
+        <div className="task-button flex gap-3 justify-end">
+          <button className="bg-[#FF6767] rounded-lg size-9 flex items-center justify-center text-white">
+            <RiFileEditFill />
+          </button>
+          <button className="bg-[#FF6767] rounded-lg size-9 flex items-center justify-center text-white">
+            <FaTrash />
+          </button>
         </div>
       </div>
     </div>

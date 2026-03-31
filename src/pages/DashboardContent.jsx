@@ -18,7 +18,10 @@ const DashboardContent = ({ profile }) => {
         <div className="flex gap-2 w-full h-full">
           <Todo
             profile={profile}
-            onTaskUpdate={() => setTaskUpdated((t) => t + 1)}
+            onTaskUpdate={() => {
+              console.log("DashboardContent onTaskUpdate dipanggil");
+              setTaskUpdated((t) => t + 1);
+            }}
           />
           <div className="second-row-content flex-1 ml-3 flex flex-col gap-5">
             <TaskStatus profile={profile} taskUpdated={taskUpdated} />

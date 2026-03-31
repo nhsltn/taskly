@@ -42,6 +42,7 @@ const Todo = ({ profile, onTaskUpdate }) => {
               onClose={() => {
                 setIsOpen(false);
                 setTasks(getTopTasks(profile.name));
+                onTaskUpdate();
               }}
             />
           )}
@@ -51,7 +52,7 @@ const Todo = ({ profile, onTaskUpdate }) => {
           <p className="text-gray-400 text-sm">• Today</p>
         </div>
       </div>
-      <div className="cards-task flex flex-col gap-3 items-center overflow-y-auto">
+      <div className="cards-task  flex flex-col gap-3 items-center overflow-y-auto">
         {tasks.length === 0 ? (
           <p className="text-gray-400 text-sm">Belum ada task.</p>
         ) : (

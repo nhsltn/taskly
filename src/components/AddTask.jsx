@@ -51,9 +51,12 @@ const AddTask = ({ onClose }) => {
     localStorage.setItem(userTasksKey, JSON.stringify(updatedTasks));
 
     toast.success("Task berhasil ditambahkan!", {
-      onClose: () => onClose(),
       autoClose: 1500,
     });
+
+    setTimeout(() => {
+      onClose();
+    }, 1500);
   };
 
   return (
