@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import { Sidebar } from "../components/Sidebar";
 import DashboardContent from "./DashboardContent";
+import MyTask from "./MyTask";
 
 function Dashboard() {
   const [activePage, setActivePage] = useState("dashboard");
@@ -22,7 +23,7 @@ function Dashboard() {
         <div className=" content flex-1 overflow-y-auto pb-8 pr-20 h-full w-full ">
           {activePage === "dashboard" && <DashboardContent profile={profile} />}
           {activePage === "vital" && <div>Vital Task</div>}
-          {activePage === "mytask" && <div>My Task</div>}
+          {activePage === "mytask" && <MyTask profile={profile} />}
           {activePage === "taskcategories" && <div>Task Categories</div>}
           {activePage === "settings" && <div>Settings</div>}
           {activePage === "help" && <div>Help</div>}
