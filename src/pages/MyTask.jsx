@@ -3,6 +3,7 @@ import CardTask from "../components/CardTask";
 import TaskDetails from "../components/TaskDetails";
 import { FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { getDay } from "../utils/dateHelper";
 
 const ITEMS_PER_PAGE = 4;
 
@@ -25,10 +26,22 @@ const MyTask = ({ profile, onForceRefresh }) => {
   };
 
   const totalPages = Math.ceil(allTasks.length / ITEMS_PER_PAGE);
-  const tasks = allTasks.slice(
+  const pagedTasks = allTasks.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE,
   );
+
+  const grouped = pagedTasks.reduce((acc, task) => {
+    if (!acc[task.deadline]) acc[task.deadline] = [];
+    acc[task.deadline].push(task);
+    return acc;
+  }, {});
+
+  const sortedDates = Object.keys(grouped).sort(
+    (a, b) => new Date(a) - new Date(b),
+  );
+
+  const today = new Date().toISOString().split("T")[0];
 
   const handleDeleteAll = () => {
     const confirmToast = toast(
@@ -69,20 +82,39 @@ const MyTask = ({ profile, onForceRefresh }) => {
           Tasks
         </h1>
         <div className="task-list-second-content flex flex-col h-full justify-between">
-          <div className="cards-task flex flex-col gap-3 items-center overflow-y-auto">
-            {tasks.length === 0 ? (
+          <div className="cards-task flex flex-col gap-5 w-full overflow-y-auto">
+            {sortedDates.length === 0 ? (
               <p className="text-gray-400 text-sm">Belum ada task.</p>
             ) : (
-              tasks.map((task) => (
-                <CardTask
-                  key={task.id}
-                  task={task}
-                  profile={profile}
-                  onTaskUpdate={() => {}}
-                  onSelect={() => setSelectedTask(task)}
-                  isActive={selectedTask?.id === task.id}
-                  disableHide={true}
-                />
+              sortedDates.map((date) => (
+                <div key={date} className="flex flex-col gap-3">
+                  <div className="todo-date flex items-center gap-2">
+                    <p className="text-xs font-medium">
+                      {new Date(date).toLocaleDateString("id-ID", {
+                        day: "numeric",
+                        month: "long",
+                      })}
+                    </p>
+                    {date === today ? (
+                      <p className="text-gray-400 text-sm">• Today</p>
+                    ) : (
+                      <p className="text-gray-400 text-sm">
+                        • {getDay(new Date(date))}
+                      </p>
+                    )}
+                  </div>
+                  {grouped[date].map((task) => (
+                    <CardTask
+                      key={task.id}
+                      task={task}
+                      profile={profile}
+                      onTaskUpdate={() => {}}
+                      onSelect={() => setSelectedTask(task)}
+                      isActive={selectedTask?.id === task.id}
+                      disableHide={true}
+                    />
+                  ))}
+                </div>
               ))
             )}
           </div>
@@ -138,6 +170,7 @@ const MyTask = ({ profile, onForceRefresh }) => {
           task={selectedTask}
           profile={profile}
           onTaskUpdate={() => {
+            setSelectedTask(null);
             refreshTasks();
             setTimeout(() => {
               const updatedTasks = JSON.parse(
@@ -146,7 +179,7 @@ const MyTask = ({ profile, onForceRefresh }) => {
               const updatedSelected = updatedTasks.find(
                 (t) => t.id === selectedTask?.id,
               );
-              setSelectedTask({ ...updatedSelected }); // spread biar React tau datanya beda
+              setSelectedTask(updatedSelected ? { ...updatedSelected } : null);
             }, 100);
           }}
         />
