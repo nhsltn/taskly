@@ -44,7 +44,7 @@ const Todo = ({ profile, onTaskUpdate }) => {
   const nextTask = tasks.find((t) => !renderedIds.includes(t.id));
 
   return (
-    <div className="first-row-content flex-1 rounded-b-2xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] bg-white py-5 px-10 gap-5 flex flex-col">
+    <div className="first-row-content flex-1 rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] bg-white py-5 lg:px-10 px-4 gap-5 flex flex-col">
       <div className="card-header flex flex-col gap-4 first-dashboard-content">
         <div className="content-header flex justify-between items-center">
           <div className="todo flex flex-row gap-2 items-center">

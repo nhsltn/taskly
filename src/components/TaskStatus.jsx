@@ -80,7 +80,7 @@ const TaskStatus = ({ profile, taskUpdated }) => {
   ];
 
   return (
-    <div className="second-dashboard-content task-status rounded-b-2xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] bg-white p-5 flex flex-col py-5 px-10 gap-5">
+    <div className="second-dashboard-content task-status rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] bg-white p-5 flex flex-col py-5 px-4 lg:px-10 gap-5">
       <div className="task-status-header flex items-center gap-2">
         <div className="content-title relative w-fit">
           <FaRegClipboard className="text-gray-400 text-3xl" />

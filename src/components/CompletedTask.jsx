@@ -17,7 +17,7 @@ const CompletedTask = ({ profile, taskUpdated }) => {
     .slice(0, 2);
 
   return (
-    <div className="third-dashboard-content completed-task rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] bg-white py-5 px-10 gap-5 flex flex-col h-full">
+    <div className="third-dashboard-content completed-task rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] bg-white py-5 px-4 lg:px-10 gap-5 flex flex-col h-full">
       <div className="completed-task-header flex items-center gap-2">
         <BsClipboard2Check className="text-gray-400 text-3xl" />
         <h1 className="font-medium text-base text-[#FF6767]">
@@ -31,7 +31,7 @@ const CompletedTask = ({ profile, taskUpdated }) => {
           completedTasks.map((task) => (
             <div
               key={task.id}
-              className="border border-gray-400 flex flex-col gap-3 p-5 w-[80%] rounded-2xl"
+              className="border border-gray-400 flex flex-col gap-3 p-5 w-full rounded-2xl"
             >
               <div className="task-header flex gap-2 items-center">
                 <div

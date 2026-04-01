@@ -15,15 +15,15 @@ function Dashboard() {
   const profile = JSON.parse(stored);
 
   return (
-    <div className="dashboard-page h-screen flex flex-col">
+    <div className="dashboard-page h-auto lg:h-screen flex flex-col">
       <Navbar />
-      <div className="dashboard-container gap-20 flex flex-1 relative h-[93%]">
+      <div className="dashboard-container gap-20 flex flex-1 sm:relative h-[93%]">
         <Sidebar
           activeId={activePage}
           onNavigate={setActivePage}
           profile={profile}
         />
-        <div className="content flex-1 overflow-y-auto pb-8 pr-20 h-full w-full">
+        <div className="content flex-1 overflow-y-auto pb-8 lg:pr-20 pr-5 pl-5 lg:pl-0 h-full w-full">
           {activePage === "dashboard" && (
             <DashboardContent key={dashboardKey} profile={profile} />
           )}

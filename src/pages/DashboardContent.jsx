@@ -11,18 +11,20 @@ const DashboardContent = ({ profile }) => {
   return (
     <div className="content-dashboard flex flex-col gap-5 items-start w-full h-full">
       <div className="greetings flex flex-row gap-3  items-center">
-        <h1 className="font-medium text-4xl">Welcome back, {profile.name} </h1>
+        <h1 className="font-medium lg:text-4xl text-2xl">
+          Welcome back, {profile.name}{" "}
+        </h1>
         <MdWavingHand className="size-9 text-[#FFDD67]" />
       </div>
-      <div className="content-wrapper border border-gray-400 p-5 shadow-[0px_4px_12px_0px_rgba(0,0,0,0.07)] w-full h-full">
-        <div className="flex gap-2 w-full h-full">
+      <div className="content-wrapper border-none md:border border-gray-400 p-0 lg:p-5 shadow-none lg:shadow-[0px_4px_12px_0px_rgba(0,0,0,0.07)] w-full h-full">
+        <div className="flex lg:flex-row flex-col gap-2 w-full h-full">
           <Todo
             profile={profile}
             onTaskUpdate={() => {
               setTaskUpdated((t) => t + 1);
             }}
           />
-          <div className="second-row-content flex-1 ml-3 flex flex-col gap-5">
+          <div className="second-row-content flex-1 ml-0 lg:ml-3 flex flex-col gap-5">
             <TaskStatus profile={profile} taskUpdated={taskUpdated} />
             <CompletedTask profile={profile} taskUpdated={taskUpdated} />
           </div>
