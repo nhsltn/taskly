@@ -71,8 +71,8 @@ const MyTask = ({ profile, onForceRefresh }) => {
   };
 
   return (
-    <div className="my-task content-wrapper flex w-full h-full gap-5">
-      <div className="first-row-content flex-1 rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] bg-white border-2 border-gray-200 py-5 px-10 gap-5 flex flex-col">
+    <div className="my-task content-wrapper flex lg:flex-row flex-col w-full h-full gap-5">
+      <div className="first-row-content flex-1 rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] bg-white border-2 border-gray-200 py-5 px-4 lg:px-10 gap-5 flex flex-col">
         <h1 className="font-semibold text-base">
           <span className="underline decoration-2 decoration-[#FF6767]">
             My{" "}

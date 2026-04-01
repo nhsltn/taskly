@@ -37,9 +37,13 @@ function Dashboard() {
               }}
             />
           )}
-          {activePage === "taskcategories" && <div>Task Categories</div>}
-          {activePage === "settings" && <div>Settings</div>}
-          {activePage === "help" && <div>Help</div>}
+          {activePage === "taskcategories" && (
+            <div>This page is under development</div>
+          )}
+          {activePage === "settings" && (
+            <div>This page is under development</div>
+          )}
+          {activePage === "help" && <div>This page is under development</div>}
         </div>
       </div>
     </div>
