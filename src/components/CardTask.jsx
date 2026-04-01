@@ -22,6 +22,7 @@ const CardTask = ({
   onSelect,
   isActive,
   disableHide = false,
+  showDeadline = false,
 }) => {
   const [done, setDone] = useState(task.status === "Completed");
   const [status, setStatus] = useState(task.status);
@@ -95,6 +96,11 @@ const CardTask = ({
           {task.title}
         </h3>
       </div>
+      {showDeadline && (
+        <p className="text-[10px] text-gray-400 shrink-0">
+          `Deadline: {task.deadline}`
+        </p>
+      )}
       <p className="task-desc text-sm text-gray-400 wrap-break-word">
         {task.description.length > 100
           ? task.description.slice(0, 100) + "..."

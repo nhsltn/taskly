@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getDay } from "../utils/dateHelper";
+import { getDay, getDateLabel } from "../utils/dateHelper";
 import AddTask from "../components/AddTask";
 import { FaRegClipboard, FaRegClock, FaPlus } from "react-icons/fa";
 import CardTask from "../components/CardTask";
@@ -93,13 +93,9 @@ const Todo = ({ profile, onTaskUpdate }) => {
                         month: "long",
                       })}
                     </p>
-                    {date === today ? (
-                      <p className="text-gray-400 text-sm">• Today</p>
-                    ) : (
-                      <p className="text-gray-400 text-sm">
-                        • {getDay(new Date(date))}
-                      </p>
-                    )}
+                    <p className="text-gray-400 text-sm">
+                      {getDateLabel(date)}
+                    </p>
                   </div>
                   {tasksToShow.map((task) => (
                     <CardTask

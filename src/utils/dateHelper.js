@@ -36,3 +36,20 @@ export const getShortDate = (date = new Date()) => {
 export const getLongDate = (date = new Date()) => {
   return `${date.getDate()} ${MONTHS[date.getMonth()]}`;
 };
+
+export const getDateLabel = (dateStr) => {
+  const today = new Date().toISOString().split("T")[0];
+
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const yesterdayStr = yesterday.toISOString().split("T")[0];
+  const tomorrowStr = tomorrow.toISOString().split("T")[0];
+
+  if (dateStr === today) return "• Today";
+  if (dateStr === yesterdayStr) return "• Yesterday";
+  if (dateStr === tomorrowStr) return "• Tomorrow";
+  return `• ${DAYS[new Date(dateStr).getDay()]}`;
+};

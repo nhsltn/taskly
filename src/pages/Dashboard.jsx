@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import { Sidebar } from "../components/Sidebar";
 import DashboardContent from "./DashboardContent";
 import MyTask from "./MyTask";
+import VitalTask from "./VitalTask";
 
 function Dashboard() {
   const [activePage, setActivePage] = useState("dashboard");
@@ -26,7 +27,7 @@ function Dashboard() {
           {activePage === "dashboard" && (
             <DashboardContent key={dashboardKey} profile={profile} />
           )}
-          {activePage === "vital" && <div>Vital Task</div>}
+          {activePage === "vital" && <VitalTask profile={profile} />}
           {activePage === "mytask" && (
             <MyTask
               profile={profile}

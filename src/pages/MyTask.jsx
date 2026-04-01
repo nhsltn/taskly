@@ -3,7 +3,7 @@ import CardTask from "../components/CardTask";
 import TaskDetails from "../components/TaskDetails";
 import { FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { getDay } from "../utils/dateHelper";
+import { getDateLabel } from "../utils/dateHelper";
 
 const ITEMS_PER_PAGE = 4;
 
@@ -40,8 +40,6 @@ const MyTask = ({ profile, onForceRefresh }) => {
   const sortedDates = Object.keys(grouped).sort(
     (a, b) => new Date(a) - new Date(b),
   );
-
-  const today = new Date().toISOString().split("T")[0];
 
   const handleDeleteAll = () => {
     const confirmToast = toast(
@@ -95,13 +93,9 @@ const MyTask = ({ profile, onForceRefresh }) => {
                         month: "long",
                       })}
                     </p>
-                    {date === today ? (
-                      <p className="text-gray-400 text-sm">• Today</p>
-                    ) : (
-                      <p className="text-gray-400 text-sm">
-                        • {getDay(new Date(date))}
-                      </p>
-                    )}
+                    <p className="text-gray-400 text-sm">
+                      {getDateLabel(date)}
+                    </p>
                   </div>
                   {grouped[date].map((task) => (
                     <CardTask
