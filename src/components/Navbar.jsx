@@ -35,7 +35,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="navbar bg-[#F8F8FB] px-20 py-3 flex justify-between w-full h-20 shadow-[0px_4px_12px_0px_rgba(0,0,0,0.07)] relative mb-15">
+    <nav className="navbar bg-[#F8F8FB] px-2 lg:px-20 py-3 flex justify-between w-full h-20 shadow-[0px_4px_12px_0px_rgba(0,0,0,0.07)] relative mb-15">
       <div className="logo flex items-center gap-3">
         <img src={Logo} alt="Taskly Logo" className="h-9.75 w-auto" />
         <p className="text-[32px] font-bold">
@@ -61,13 +61,13 @@ function Navbar() {
           {showCalendar && (
             <div
               ref={calendarRef}
-              className="absolute top-12 left-1/2 -translate-x-1/2 z-50 rounded-xl overflow-hidden"
+              className="absolute top-12 right-0 z-50 rounded-xl overflow-hidden"
             >
               <Calendar onChange={setDate} value={date} />
             </div>
           )}
         </div>
-        <div className="date flex flex-col gap-1 items-center text-base font-medium">
+        <div className="date hidden lg:flex flex-col gap-1 items-center text-base font-medium">
           <p className="days">{getDay()}</p>
           <p className="date text-[#3ABEFF]">{getShortDate()}</p>
         </div>
