@@ -50,17 +50,17 @@ function Signin() {
 
   return (
     <div className="signin-page bg-login bg-cover bg-center h-screen flex items-center justify-center">
-      <div className="card w-7xl flex p-5 h-[80%]">
-        <div className="signin-vector flex-1 items-end relative">
+      <div className="card w-[90%] lg:w-7xl flex lg:flex-row flex-col p-5 h-[80%]">
+        <div className="signin-vector flex-1 flex items-end justify-center relative lg:pb-0 pb-10">
           <img
             src={Vector}
             alt="vector"
-            className="bottom-0 left-0 w-110 h-165 absolute"
+            className="lg:absolute lg:bottom-0 lg:left-0 lg:w-110 lg:h-165 w-55 h-82.5"
           />
         </div>
         <div className="signin-form flex-1">
-          <div className="signin-content flex flex-col gap-5 items-start justify-center h-full pr-10">
-            <h1 className="text-4xl font-bold">Sign In</h1>
+          <div className="signin-content flex flex-col gap-5 lg:items-start justify-center h-full pr-0 lg:pr-10">
+            <h1 className="text-4xl font-bold text-center">Sign In</h1>
 
             {/* Input Name */}
             <div className="name-form w-full flex flex-col gap-2">
