@@ -46,8 +46,10 @@ export const Sidebar = ({ activeId, onNavigate, profile }) => {
 
   const handleLogout = () => {
     sessionStorage.removeItem("currentUser");
+    localStorage.removeItem("rememberedUser");
     navigate("/signin");
   };
+
   return (
     <div className="sidebar shadow-[10px_4px_12px_rgba(0,0,0,0.1)] bg-[#FF6767] rounded-r-3xl flex flex-col relative h-full w-82.5 text-white py-8 pr-5 pl-3 ">
       <img
