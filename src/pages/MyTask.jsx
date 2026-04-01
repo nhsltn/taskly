@@ -72,15 +72,15 @@ const MyTask = ({ profile, onForceRefresh }) => {
 
   return (
     <div className="my-task content-wrapper flex lg:flex-row flex-col w-full h-full gap-5">
-      <div className="first-row-content flex-1 rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] bg-white border-2 border-gray-200 py-5 px-4 lg:px-10 gap-5 flex flex-col">
+      <div className="first-row-content flex-1 rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] bg-white border-2 border-gray-200 py-5 px-4 lg:px-10 gap-3 flex flex-col min-h-0">
         <h1 className="font-semibold text-base">
           <span className="underline decoration-2 decoration-[#FF6767]">
             My{" "}
           </span>
           Tasks
         </h1>
-        <div className="task-list-second-content flex flex-col h-full justify-between">
-          <div className="cards-task flex flex-col gap-5 w-full overflow-y-auto">
+        <div className="task-list-second-content flex flex-col min-h-0 flex-1 justify-between">
+          <div className="cards-task flex flex-col gap-5 w-full overflow-y-auto min-h-0 flex-1">
             {sortedDates.length === 0 ? (
               <p className="text-gray-400 text-sm">Belum ada task.</p>
             ) : (
@@ -149,7 +149,7 @@ const MyTask = ({ profile, onForceRefresh }) => {
             </div>
           )}
 
-          <div className="task-button flex gap-3 justify-end mt-3">
+          <div className="task-button flex gap-3 justify-end mt-3 shrink-0">
             <button
               onClick={handleDeleteAll}
               className="bg-[#FF6767] rounded-lg size-9 flex items-center justify-center text-white"
